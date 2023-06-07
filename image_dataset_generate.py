@@ -16,7 +16,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", type=str, default="imagenette", help="dataset")
 parser.add_argument("--n_img_per_class", type=int, default=1300, help="number of generated images for each class")
 parser.add_argument("--guidance_scale", type=float, default=3, help="guidance scale")
-parser.add_argument("--data_dir", type=str, default="/media/slei/slei_disk/data/curated_imagenet", help="data augmentation")
+parser.add_argument("--data_dir", type=str, default="/media/slei/slei_disk/data/curated_imagenet", help="path to save generated dataset")
 parser.add_argument('--use_caption', action='store_true')
 parser.add_argument("--caption_dir", type=str, default="/media/slei/slei_disk/distill_image_to_text/imagenet_caption_blip2", help="path of image captioning")
 args = parser.parse_args()
@@ -55,7 +55,7 @@ model_id = "runwayml/stable-diffusion-v1-5"
 device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
-pipe.scheduler =  DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+#pipe.scheduler =  DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 pipe = pipe.to(device)
 
 if use_caption:
@@ -66,7 +66,6 @@ if use_caption:
         
         sub_dir = Path(os.path.join(out_dir, c))
         sub_dir.mkdir(exist_ok=True, parents=True)
-
         
         for i in range(len(caption)):
             prompt = f'a photo of {c}, ' + caption[i]
@@ -74,7 +73,7 @@ if use_caption:
             seed = random.randint(0, 10000)
             with autocast('cuda'):
                 generator = torch.Generator(device=device).manual_seed(seed)
-                image = pipe(prompt, generator=generator, num_inference_steps=20, guidance_scale=guidance_scale).images[0]
+                image = pipe(prompt, generator=generator, num_inference_steps=50, guidance_scale=guidance_scale).images[0]
                 
             outpath = sub_dir /  f"{c}_{i}.jpg"
             image.save(outpath)

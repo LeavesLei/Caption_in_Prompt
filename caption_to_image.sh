@@ -1,14 +1,14 @@
 guidance_scale=1 # [1, 1.5, 2, 2.5, 3, 4, 5, 6, 7.5]
 
-use_caption=False
+use_caption=True # [True, False]
+
+batch_size=128
 
 dataset='imagenette'
 
 data_dir=PATH_TO_SAVE_GENERATED_DATA
 
 caption_dir=PATH_OF_IMAGE_CAPTION
-
-batch_size=64
 
 
 if [ $use_caption ]

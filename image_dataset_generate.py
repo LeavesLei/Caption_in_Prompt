@@ -56,6 +56,7 @@ device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
 
 pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float16)
 #pipe.scheduler =  DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
+num_inference_steps = 50
 pipe = pipe.to(device)
 
 if use_caption:
@@ -73,8 +74,12 @@ if use_caption:
             seed = random.randint(0, 10000)
             with autocast('cuda'):
                 generator = torch.Generator(device=device).manual_seed(seed)
-                image = pipe(prompt, generator=generator, num_inference_steps=50, guidance_scale=guidance_scale).images[0]
-                
+                nsfw = True
+                while nsfw:
+                    out = pipe(prompt, generator=generator, num_inference_steps=num_inference_steps, guidance_scale=guidance_scale)
+                    nsfw = out["nsfw_content_detected"][0] # avoid saving NSFW/black images
+            
+            image = out.images[0]
             outpath = sub_dir /  f"{c}_{i}.jpg"
             image.save(outpath)
         
@@ -91,7 +96,7 @@ else:
                 generator = torch.Generator(device=device).manual_seed(seed)
                 nsfw = True
                 while nsfw:
-                    out = pipe(prompt, generator=generator, num_inference_steps=20, guidance_scale=guidance_scale)
+                    out = pipe(prompt, generator=generator, num_inference_steps=num_inference_steps, guidance_scale=guidance_scale)
                     nsfw = out["nsfw_content_detected"][0] # avoid saving NSFW/black images
             
             image = out.images[0]

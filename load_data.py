@@ -8,6 +8,8 @@ import torchvision
 import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 
+from PIL import Image
+
 imagenet_classes = ["tench", "goldfish", "great white shark", "tiger shark", "hammerhead shark", "electric ray",
                         "stingray", "rooster", "hen", "ostrich", "brambling", "goldfinch", "house finch", "junco",
                         "indigo bunting", "American robin", "bulbul", "jay", "magpie", "chickadee", "American dipper",
@@ -306,6 +308,19 @@ def get_curated_dataset(dataset, data_path, class_names, sample_ratio=1.):
 
     dst = torchvision.datasets.ImageFolder(data_path, transform=train_preprocess, target_transform=target_transform)
 
+    # Temporary: filter invalid
+    samples = dst.samples
+    filtered_samples = []
+    for path, label in samples:
+        try:
+            img = Image.open(path)
+            filtered_samples.append((path, label))
+        except:
+            continue
+    dst.samples = filtered_samples
+    dst.labels = [s[1] for s in dst.samples]
+    print(len(filtered_samples))
+        
     if sample_ratio < 1:
         sample_num = int(len(dst) * sample_ratio)
         sample_index = np.random.permutation(len(dst))[:sample_num]

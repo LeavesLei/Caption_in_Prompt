@@ -266,6 +266,7 @@ def get_dataset(dataset='ImageNet', data_path='/media/slei/slei_disk/data/ImageN
                                             transforms.Normalize(mean=(0.48145466, 0.4578275, 0.40821073), std=(0.26862954, 0.26130258, 0.27577711))
                                         ])
     """
+    # dst_train = torchvision.datasets.ImageNet(data_path, split="train", transform=train_preprocess)
     dst_train = torchvision.datasets.ImageNet(data_path, split="train", transform=train_preprocess)
     #dst_train_dict = {c : torch.utils.data.Subset(dst_train, np.squeeze(np.argwhere(np.equal(dst_train.targets, img_net_classes[c])))) for c in range(len(img_net_classes))}
     #dst_train = torch.utils.data.Subset(dst_train, np.squeeze(np.argwhere(np.isin(dst_train.targets, img_net_classes))))

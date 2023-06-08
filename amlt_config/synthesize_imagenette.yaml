@@ -11,6 +11,7 @@ environment:
   - pip install --upgrade torch 
   - pip install transformers
   - pip install diffusers
+  - pip install tqdm
   - pwd 
 
 code:

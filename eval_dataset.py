@@ -67,4 +67,4 @@ for epoch in range(start_epoch, start_epoch + num_epochs):
 # Test
 print(test(net, testloader, 1))
 
-torch.save(net, 'models/resnet50_' + dataset_name + '_caption' + use_caption)
+torch.save(net, 'models/resnet50_' + dataset_name + '_caption' + str(use_caption))

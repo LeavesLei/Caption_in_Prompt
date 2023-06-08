@@ -192,6 +192,8 @@ imagefruit = [953, 954, 949, 950, 951, 957, 952, 945, 943, 948]
 # ["bee", "ladys slipper", "banana", "lemon", "corn", "school_bus", "honeycomb", "lion", "garden_spider", "goldfinch"]
 imageyellow = [309, 986, 954, 951, 987, 779, 599, 291, 72, 11]
 
+imagenet100 = [15, 45, 54, 57, 64, 74, 90, 99, 119, 120, 122, 131, 137, 151, 155, 157, 158, 166, 167, 169, 176, 180, 209, 211, 222, 228, 234, 236, 242, 246, 267, 268, 272, 275, 277, 281, 299, 305, 313, 317, 331, 342, 368, 374, 407, 421, 431, 449, 452, 455, 479, 494, 498, 503, 508, 544, 560, 570, 592, 593, 599, 606, 608, 619, 620, 653, 659, 662, 665, 667, 674, 682, 703, 708, 717, 724, 748, 758, 765, 766, 772, 775, 796, 798, 830, 854, 857, 858, 872, 876, 882, 904, 908, 936, 938, 953, 959, 960, 993, 994]
+
 imagenet_subclass_dict = {
     "imagenette" : imagenette,
     "imagewoof" : imagewoof,
@@ -199,6 +201,7 @@ imagenet_subclass_dict = {
     "imageyellow": imageyellow,
     "imagemeow": imagemeow,
     "imagesquawk": imagesquawk,
+    "imagenet100": imagenet100
 }
 
 

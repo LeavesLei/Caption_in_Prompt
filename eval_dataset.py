@@ -65,6 +65,6 @@ for epoch in range(start_epoch, start_epoch + num_epochs):
     print("| Elapsed time : %d:%02d:%02d" % (get_hms(elapsed_time)))
 
 # Test
-test(net, testloader, 1)
+print(test(net, testloader, 1))
 
-torch.save(net, 'models/resnet50_' + dataset_name)
+torch.save(net, 'models/resnet50_' + dataset_name + '_caption' + use_caption)

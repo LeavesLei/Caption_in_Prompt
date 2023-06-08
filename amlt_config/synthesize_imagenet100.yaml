@@ -1,0 +1,228 @@
+description: stable diffusion caption synthesize tasks
+target:
+ service: aml
+ name: canada1GPUcl
+environment:
+ image: amlt-sing/pytorch-1.11.0-cuda11.6
+ setup:
+  - python -m pip install -U pip
+  - pip install numpy
+  - pip install --upgrade torchvision 
+  - pip install --upgrade torch 
+  - pip install transformers
+  - pip install diffusers
+  - pip install tqdm
+  - pwd 
+
+code:
+ local_dir: ./
+storage:
+ diffusion_caption_haoc:
+  storage_account_name: ussclowpriv100data
+  container_name: v-haochen2
+  is_output: True
+ data:
+  storage_account_name: ussclowpriv100data
+  container_name: jindwang
+  mount_dir: /mnt/data
+jobs:
+- name: imagenet100_scale1.5_captionFalse_piece0
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 0
+
+- name: imagenet100_scale1.5_captionFalse_piece1
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 1
+
+- name: imagenet100_scale1.5_captionFalse_piece2
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 2
+
+- name: imagenet100_scale1.5_captionFalse_piece3
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 3
+
+- name: imagenet100_scale1.5_captionFalse_piece4
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 4
+
+- name: imagenet100_scale1.5_captionFalse_piece5
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 5
+
+- name: imagenet100_scale1.5_captionFalse_piece6
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 6
+
+- name: imagenet100_scale1.5_captionFalse_piece7
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 7
+
+- name: imagenet100_scale1.5_captionFalse_piece8
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 8
+
+- name: imagenet100_scale1.5_captionFalse_piece9
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 9
+
+- name: imagenet100_scale1.5_captionTrue_piece0
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 0
+
+- name: imagenet100_scale1.5_captionTrue_piece1
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 1
+
+- name: imagenet100_scale1.5_captionTrue_piece2
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 2
+
+- name: imagenet100_scale1.5_captionTrue_piece3
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 3
+
+- name: imagenet100_scale1.5_captionTrue_piece4
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 4
+
+- name: imagenet100_scale1.5_captionTrue_piece5
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 5
+
+- name: imagenet100_scale1.5_captionTrue_piece6
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 6
+
+- name: imagenet100_scale1.5_captionTrue_piece7
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 7
+
+- name: imagenet100_scale1.5_captionTrue_piece8
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 8
+
+- name: imagenet100_scale1.5_captionTrue_piece9
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale1.5_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 9
+
+- name: imagenet100_scale2_captionFalse_piece0
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 0
+
+- name: imagenet100_scale2_captionFalse_piece1
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 1
+
+- name: imagenet100_scale2_captionFalse_piece2
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 2
+
+- name: imagenet100_scale2_captionFalse_piece3
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 3
+
+- name: imagenet100_scale2_captionFalse_piece4
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 4
+
+- name: imagenet100_scale2_captionFalse_piece5
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 5
+
+- name: imagenet100_scale2_captionFalse_piece6
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 6
+
+- name: imagenet100_scale2_captionFalse_piece7
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 7
+
+- name: imagenet100_scale2_captionFalse_piece8
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 8
+
+- name: imagenet100_scale2_captionFalse_piece9
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionFalse --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 9
+
+- name: imagenet100_scale2_captionTrue_piece0
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 0
+
+- name: imagenet100_scale2_captionTrue_piece1
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 1
+
+- name: imagenet100_scale2_captionTrue_piece2
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 2
+
+- name: imagenet100_scale2_captionTrue_piece3
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 3
+
+- name: imagenet100_scale2_captionTrue_piece4
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 4
+
+- name: imagenet100_scale2_captionTrue_piece5
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 5
+
+- name: imagenet100_scale2_captionTrue_piece6
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 6
+
+- name: imagenet100_scale2_captionTrue_piece7
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 7
+
+- name: imagenet100_scale2_captionTrue_piece8
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 8
+
+- name: imagenet100_scale2_captionTrue_piece9
+  sku: G1
+  command:
+  - python image_dataset_generate_imagenet100.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230608/imagenet100_scale2_captionTrue --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --data_piece 9
+

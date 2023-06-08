@@ -71,6 +71,7 @@ for epoch in tqdm(range(start_epoch, start_epoch + num_epochs)):
 # Test
 print(test(net, testloader, 1))
 
+
 os.makedirs(args.save_dir, exist_ok=True)
 # TODO: fix saving model
 torch.save(net, os.path.join(args.save_dir, 'models/resnet50_' + dataset_name + '_caption' + use_caption))

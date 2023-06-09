@@ -46,15 +46,15 @@ else:
 
 out_dir = Path(os.path.join(data_dir, subset_name))
 out_dir.mkdir(exist_ok=True, parents=True)
-class_names = get_class_name(dataset)
-
-if use_caption:
-    class_index = get_class_index(dataset)
 
 # divide the classes
 n_divide = len(class_names) // n_gpus_for_one_dataset
+class_names = get_class_name(dataset)
 class_names = class_names[data_piece * n_divide: (data_piece + 1) * n_divide]
-class_index = class_index[data_piece * n_divide: (data_piece + 1) * n_divide]
+
+if use_caption:
+    class_index = get_class_index(dataset)
+    class_index = class_index[data_piece * n_divide: (data_piece + 1) * n_divide]
 
 caption_name_list = listdir(caption_dir)
 caption_path_list = [join(caption_dir, f) for f in caption_name_list]

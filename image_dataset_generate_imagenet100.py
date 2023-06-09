@@ -54,7 +54,7 @@ if use_caption:
 # divide the classes
 n_divide = len(class_names) // n_gpus_for_one_dataset
 class_names = class_names[data_piece * n_divide: (data_piece + 1) * n_divide]
-class_index = class_names[data_piece * n_divide: (data_piece + 1) * n_divide]
+class_index = class_index[data_piece * n_divide: (data_piece + 1) * n_divide]
 
 caption_name_list = listdir(caption_dir)
 caption_path_list = [join(caption_dir, f) for f in caption_name_list]

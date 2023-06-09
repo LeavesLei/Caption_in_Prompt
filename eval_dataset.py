@@ -73,4 +73,4 @@ print(test(net, testloader, 1))
 
 os.makedirs(args.save_dir, exist_ok=True)
 # TODO: fix saving model
-torch.save(net, os.path.join(args.save_dir, 'models/resnet50_' + dataset_name + '_caption' + use_caption))
+torch.save(net, os.path.join(args.save_dir, 'models/resnet50_' + dataset_name + '_caption' + str(use_caption)))

@@ -1,3 +1,4 @@
+import os
 import torch
 import torch.distributed as dist
 import time
@@ -12,7 +13,7 @@ parser.add_argument("--guidance_scale", type=float, default=1.5, help="guidance 
 parser.add_argument("--data_path", type=str, default="/media/slei/slei_disk/data/curated_imagenet", help="data path")
 parser.add_argument("--caption", type=str, default="none", help="type of caption")
 parser.add_argument("--batch_size", type=int, default=64, help="batch size for training")
-parser.add_argument('--local_rank', default=-1, type=int, help='node rank for distributed training')
+# parser.add_argument('--local-rank', default=-1, type=int, help='node rank for distributed training')
 args = parser.parse_args()
 
 # Print Args
@@ -21,14 +22,15 @@ for k in list(vars(args).keys()):
     print("%s: %s" % (k, vars(args)[k]))
 print("--------args----------\n")
 
-ImageNetPath = '/media/slei/slei_disk/data/ImageNet'
+# ImageNetPath = '/media/slei/slei_disk/data/ImageNet'I
+ImageNetPath = '/media/Bootes/datasets/imagenet'
 
 dataset = args.dataset
 guidance_scale = args.guidance_scale
 data_path = args.data_path
 caption = args.caption
 batch_size = args.batch_size
-local_rank = args.local_rank
+local_rank = int(os.environ["LOCAL_RANK"])
 
 nprocs = torch.cuda.device_count()
 batch_size = int(batch_size / nprocs)
@@ -51,6 +53,8 @@ torch.backends.cudnn.benchmark = True
 
 # Network init
 #device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+channel = 3
+num_classes = 1000
 net = ResNet50(channel, num_classes)
 torch.cuda.set_device(local_rank)
 net.cuda(local_rank)

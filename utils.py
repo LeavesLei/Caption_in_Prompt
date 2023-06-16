@@ -47,6 +47,7 @@ def test_distributed(net, testloader, local_rank, epoch=1):
     correct = 0
     total = 0
 
+    criterion = nn.CrossEntropyLoss()
     criterion = criterion.cuda(local_rank)
 
     with torch.no_grad():
@@ -121,6 +122,7 @@ def train_distributed(net, trainloader, local_rank, epoch=1, lr=0.1):
     correct = 0
     total = 0
 
+    criterion = nn.CrossEntropyLoss()
     criterion = criterion.cuda(local_rank)
     optimizer = optim.SGD(
         net.parameters(), lr=learning_rate(lr, epoch), momentum=0.9, weight_decay=5e-4

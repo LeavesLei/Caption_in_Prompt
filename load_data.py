@@ -258,7 +258,7 @@ def get_dataset(dataset='ImageNet', data_path='/media/slei/slei_disk/data/ImageN
     im_size = (224, 224)
     num_classes = 1000 if subset == None else 10
 
-    img_net_classes = imagenet_classes if subset == None else imagenet_subclass_dict[subset]
+    img_net_classes = imagenet1k if subset == None else imagenet_subclass_dict[subset]
 
     """
 

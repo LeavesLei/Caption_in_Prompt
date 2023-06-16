@@ -13,6 +13,7 @@ parser.add_argument("--guidance_scale", type=float, default=1.5, help="guidance 
 parser.add_argument("--data_path", type=str, default="/media/slei/slei_disk/data/curated_imagenet", help="data path")
 parser.add_argument("--caption", type=str, default="none", help="type of caption")
 parser.add_argument("--batch_size", type=int, default=64, help="batch size for training")
+parser.add_argument("--save_dir", type=str, default="/media/slei/slei_disk/data/curated_imagenet", help="save path")
 # parser.add_argument('--local-rank', default=-1, type=int, help='node rank for distributed training')
 args = parser.parse_args()
 
@@ -23,7 +24,8 @@ for k in list(vars(args).keys()):
 print("--------args----------\n")
 
 # ImageNetPath = '/media/slei/slei_disk/data/ImageNet'I
-ImageNetPath = '/media/Bootes/datasets/imagenet'
+# ImageNetPath = '/media/Bootes/datasets/imagenet'
+ImageNetPath = '/mnt/data/dataset/imagenet/ImageNet'
 
 dataset = args.dataset
 guidance_scale = args.guidance_scale
@@ -40,9 +42,9 @@ print("nprocs: %s"%{nprocs})
 print("normalized batch size: %s"%{batch_size})
 
 if caption=='none':
-    dataset_name = dataset + "_no-caption_gs_" + str(guidance_scale)
+    dataset_name = dataset + "_gs_" + str(guidance_scale)
 elif 'blip' in caption:
-    dataset_name = dataset + "_blip_gs_" + str(guidance_scale)
+    dataset_name = dataset + "_use_caption_gs_" + str(guidance_scale)
 elif 'vit' in caption:
     dataset_name = dataset + "_vit-gpt_gs_" + str(guidance_scale)
 else:
@@ -69,7 +71,7 @@ class_names = get_class_name(dataset)
 dst_train = get_curated_dataset(dataset_name, data_path, class_names, 1.)
 
 train_sampler = torch.utils.data.distributed.DistributedSampler(dst_train)
-trainloader = torch.utils.data.DataLoader(dst_train, batch_size=batch_size, shuffle=True, num_workers=2, pin_memory=True, sample=train_sampler)
+trainloader = torch.utils.data.DataLoader(dst_train, batch_size=batch_size, num_workers=2, pin_memory=True, sampler=train_sampler)
 
 # Train
 lr =0.1
@@ -94,4 +96,4 @@ print("Test accuracy: ")
 print(test_distributed(net, testloader, local_rank, 1))
 
 if local_rank == 0:
-    torch.save(net, 'models/resnet50_' + dataset_name)
+    torch.save(net, f'{args.save_dir}/models/resnet50_' + dataset_name)

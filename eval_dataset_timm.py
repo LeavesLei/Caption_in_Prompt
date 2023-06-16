@@ -90,6 +90,8 @@ parser.add_argument('--data-dir', metavar='DIR', default='/media/slei/slei_disk/
                     help='path to dataset (root dir)')
 parser.add_argument('--imagenet_path', metavar='DIR', default='/media/slei/slei_disk/data/ImageNet', 
                     help='path to real ImageNet')
+parser.add_argument('--dataset_name', type=str, default='imagenet1k_scale1.5_captionTrue', 
+                    help='path to real ImageNet')
 parser.add_argument('--dataset', metavar='NAME', default='',
                     help='dataset type + name ("<type>/<name>") (default: ImageFolder or ImageTar if empty)')
 parser.add_argument('--use_caption', action='store_true')
@@ -358,7 +360,7 @@ group.add_argument('--eval-metric', default='top1', type=str, metavar='EVAL_METR
                    help='Best metric (default: "top1"')
 group.add_argument('--tta', type=int, default=0, metavar='N',
                    help='Test/inference time augmentation (oversampling) factor. 0=None (default: 0)')
-group.add_argument("--local_rank", default=0, type=int)
+# group.add_argument("--local_rank", default=0, type=int)
 group.add_argument('--use-multi-epochs-loader', action='store_true', default=False,
                    help='use the multi-epochs-loader to save time at the beginning of every epoch')
 group.add_argument('--log-wandb', action='store_true', default=False,
@@ -589,15 +591,13 @@ def main():
         args.data_dir = args.data
 
     # load real data and curated data
-    if args.use_caption:
-        dataset_name = args.dataset + "use_caption_gs_" + str(args.guidance_scale)
-    else:
-        dataset_name = args.dataset + "_gs_" + str(args.guidance_scale)
-
-    channel, im_size, num_classes, class_names, real_dst_train, dataset_eval, testloader = get_dataset(data_path=args.imagenet_path, batch_size=args.batch_size, subset=args.dataset)
-
-    dataset_train = get_curated_dataset(dataset_name, args.data_dir, class_names, 1.)
-
+    # if 'captionTrue' in args.dataset_name:
+    #     dataset_name = args.dataset_name + "/imagenet1k_use_caption_gs" + str(args.guidance_scale)
+    # else:
+    #     dataset_name = args.dataset_name+ "/imagenet1k_gs" + str(args.guidance_scale)
+    
+    channel, im_size, num_classes, class_names, real_dst_train, dataset_eval, testloader = get_dataset(data_path=args.imagenet_path, batch_size=args.batch_size, subset=None)
+    dataset_train = get_curated_dataset(args.dataset_name, args.data_dir, class_names, 1.)
 
 
     # setup mixup / cutmix

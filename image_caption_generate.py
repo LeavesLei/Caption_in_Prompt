@@ -27,8 +27,8 @@ print("--------args----------\n")
 
 dataset = args.dataset
 guidance_scale = args.guidance_scale
-dir_path = args.dir_path
-save_path = args.save_path
+dir_path = args.dir_path + str(guidance_scale) # REWRITE THIS LINE TO AUTO LOAD THE DATASET WITH DIFFERENT GUIDANCE SCALE
+save_path = args.save_path + dataset + '_gs_' + str(guidance_scale) 
 caption_model = args.caption_model
 batch_size = args.batch_size
 

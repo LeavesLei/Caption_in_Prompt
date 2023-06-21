@@ -10,10 +10,11 @@ import argparse
 
 parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", type=str, default="imagenette", help="dataset")
-parser.add_argument("--dir_path", type=str, default="/media/slei/slei_disk/data/ImageNet/train", help="")
-parser.add_argument("--save_path", type=str, default="imagenet_caption", help="path for saving image captions")
-parser.add_argument("--caption_model", type=str, default="vit-gpt2", help="models used for image caption") # vit-gpt2, blip, blip2
-parser.add_argument("--batch_size", type=int, default=128, help="batch size for image caption") # 128 for ViT-GPT2, 65 for blip2
+parser.add_argument("--guidance_scale", type=float, default=2, help="guidance scale")
+parser.add_argument("--dir_path", type=str, default="/media/slei/slei_disk/data/ImageNet/train", help="path to load data")
+parser.add_argument("--save_path", type=str, default="caption_from_syn_img_", help="path for saving image captions")
+parser.add_argument("--caption_model", type=str, default="blip2", help="models used for image caption") # vit-gpt2, blip, blip2
+parser.add_argument("--batch_size", type=int, default=65, help="batch size for image caption") # 128 for ViT-GPT2, 65 for blip2
 args = parser.parse_args()
 
 # Print Args
@@ -25,8 +26,9 @@ print("--------args----------\n")
 #vit-gpt2, blip2-opt-2.7b, blip-base, blip-large
 
 dataset = args.dataset
-dir_path = args.dir_path
-save_path = args.save_path
+guidance_scale = args.guidance_scale
+dir_path = args.dir_path + str(guidance_scale) # REWRITE THIS LINE TO AUTO LOAD THE DATASET WITH DIFFERENT GUIDANCE SCALE
+save_path = args.save_path + dataset + '_gs_' + str(guidance_scale) 
 caption_model = args.caption_model
 batch_size = args.batch_size
 

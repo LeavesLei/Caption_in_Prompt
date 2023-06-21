@@ -256,10 +256,9 @@ def get_dataset(dataset='ImageNet', data_path='/media/slei/slei_disk/data/ImageN
      
     channel = 3
     im_size = (224, 224)
-    num_classes = 1000 if subset == None else 10
 
     img_net_classes = imagenet1k if subset == None else imagenet_subclass_dict[subset]
-
+    num_classes = 1000 if subset == None else len(img_net_classes)
     """
 
     train_preprocess = transforms.Compose([
@@ -278,16 +277,18 @@ def get_dataset(dataset='ImageNet', data_path='/media/slei/slei_disk/data/ImageN
     dst_train = torchvision.datasets.ImageNet(data_path, split="train", transform=train_preprocess)
     #dst_train_dict = {c : torch.utils.data.Subset(dst_train, np.squeeze(np.argwhere(np.equal(dst_train.targets, img_net_classes[c])))) for c in range(len(img_net_classes))}
     #dst_train = torch.utils.data.Subset(dst_train, np.squeeze(np.argwhere(np.isin(dst_train.targets, img_net_classes))))
-    dst_train = CustomSubset(dst_train, np.squeeze(np.argwhere(np.isin(dst_train.targets, img_net_classes))), np.array(dst_train.targets)[np.squeeze(np.argwhere(np.isin(dst_train.targets, img_net_classes)))])
+
     #loader_train_dict = {c : torch.utils.data.DataLoader(dst_train_dict[c], batch_size=batch_size, shuffle=True, num_workers=16) for c in range(len(img_net_classes))}
     dst_test = torchvision.datasets.ImageNet(data_path, split="val", transform=test_preprocess)
     #dst_test = torch.utils.data.Subset(dst_test, np.squeeze(np.argwhere(np.isin(dst_test.targets, img_net_classes))))
-    dst_test = CustomSubset(dst_test, np.squeeze(np.argwhere(np.isin(dst_test.targets, img_net_classes))), np.array(dst_test.targets)[np.squeeze(np.argwhere(np.isin(dst_test.targets, img_net_classes)))])
-    for c in range(len(img_net_classes)):
-        #dst_test.dataset.targets[dst_test.dataset.targets == img_net_classes[c]] = c
-        #dst_train.dataset.targets[dst_train.dataset.targets == img_net_classes[c]] = c
-        dst_train.targets[dst_train.targets == img_net_classes[c]] = c
-        dst_test.targets[dst_test.targets == img_net_classes[c]] = c
+    if subset is not None:
+        dst_train = CustomSubset(dst_train, np.squeeze(np.argwhere(np.isin(dst_train.targets, img_net_classes))), np.array(dst_train.targets)[np.squeeze(np.argwhere(np.isin(dst_train.targets, img_net_classes)))])
+        dst_test = CustomSubset(dst_test, np.squeeze(np.argwhere(np.isin(dst_test.targets, img_net_classes))), np.array(dst_test.targets)[np.squeeze(np.argwhere(np.isin(dst_test.targets, img_net_classes)))])
+        for c in range(len(img_net_classes)):
+            #dst_test.dataset.targets[dst_test.dataset.targets == img_net_classes[c]] = c
+            #dst_train.dataset.targets[dst_train.dataset.targets == img_net_classes[c]] = c
+            dst_train.targets[dst_train.targets == img_net_classes[c]] = c
+            dst_test.targets[dst_test.targets == img_net_classes[c]] = c
     # class_names = dst_train.classes
     #class_map = {x: i for i, x in enumerate(img_net_classes)}
     #class_map_inv = {i: x for i, x in enumerate(img_net_classes)}
@@ -305,9 +306,17 @@ def get_curated_dataset(dataset, data_path, class_names, sample_ratio=1.):
     class_label_dict = {c:i for i, c in enumerate(class_names)}
     data_path = os.path.join(data_path, dataset)
     
+        
+    # print(class_label_dict)
+    # exit(0)
+    
     dst = torchvision.datasets.ImageFolder(data_path, transform=train_preprocess)
     classes = dst.classes
+    class_to_idx = dst.class_to_idx
     label_map_dict = {i:class_label_dict[c] for i, c in enumerate(classes)}
+    
+    # print(class_to_idx)
+    # exit(0)
 
     def target_transform(label):
         return label_map_dict[label]

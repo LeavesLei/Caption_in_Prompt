@@ -96,7 +96,7 @@ parser.add_argument('--dataset', metavar='NAME', default='',
                     help='dataset type + name ("<type>/<name>") (default: ImageFolder or ImageTar if empty)')
 parser.add_argument('--use_caption', action='store_true')
 parser.add_argument("--guidance_scale", type=float, default=3, help="guidance scale")
-
+parser.add_argument("--subset", type=str, default=None, help="guidance scale")
 
 group.add_argument('--train-split', metavar='NAME', default='train',
                    help='dataset train split (default: train)')
@@ -596,7 +596,8 @@ def main():
     # else:
     #     dataset_name = args.dataset_name+ "/imagenet1k_gs" + str(args.guidance_scale)
     
-    channel, im_size, num_classes, class_names, real_dst_train, dataset_eval, testloader = get_dataset(data_path=args.imagenet_path, batch_size=args.batch_size, subset=None)
+    channel, im_size, num_classes, class_names, real_dst_train, dataset_eval, testloader = get_dataset(data_path=args.imagenet_path, batch_size=args.batch_size, subset=args.subset)
+    print(num_classes)
     dataset_train = get_curated_dataset(args.dataset_name, args.data_dir, class_names, 1.)
 
 

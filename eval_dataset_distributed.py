@@ -68,7 +68,8 @@ channel, im_size, num_classes, class_names, real_dst_train, dst_test, testloader
 
 # load curated datasets
 class_names = get_class_name(dataset)
-dst_train = get_curated_dataset(dataset_name, data_path, class_names, 1.)
+# dst_train = get_curated_dataset(dataset_name, data_path, class_names, 1.)
+dst_train = real_dst_train
 
 train_sampler = torch.utils.data.distributed.DistributedSampler(dst_train)
 trainloader = torch.utils.data.DataLoader(dst_train, batch_size=batch_size, num_workers=2, pin_memory=True, sampler=train_sampler)

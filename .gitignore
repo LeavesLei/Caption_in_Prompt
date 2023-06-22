@@ -1,6 +1,9 @@
 
 # diffusion data
 diffusion_data/
+caption_data/
+experiments/
+amlt/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

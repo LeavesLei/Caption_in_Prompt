@@ -221,6 +221,17 @@ def get_class_index(dataset):
     return imagenet_subclass_dict[dataset]
 
 
+def get_id_class_name_map_dict():
+
+    tf = open("dict_id_to_class_name.json", "r")
+    dict_id_to_class_name = json.load(tf)
+    
+    tf = open("dict_class_name_to_id.json", "r")
+    dict_class_name_to_id = json.load(tf)
+
+    return dict_id_to_class_name, dict_class_name_to_id
+
+
 train_preprocess = transforms.Compose([
                                             transforms.RandomResizedCrop(size=224, scale=(0.5, 1), interpolation=transforms.InterpolationMode.BICUBIC),
                                             transforms.RandomHorizontalFlip(p=0.5),

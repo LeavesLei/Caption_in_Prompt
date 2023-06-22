@@ -9,7 +9,7 @@ from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 import argparse
 from utils import load_list
 
-from load_data import get_class_name, get_class_index
+from load_data import get_class_name, get_class_index, get_id_class_name_map_dict
 
 
 parser = argparse.ArgumentParser()
@@ -42,12 +42,14 @@ else:
 
 out_dir = Path(os.path.join(data_dir, subset_name))
 out_dir.mkdir(exist_ok=True, parents=True)
+
+dict_id_to_class_name, dict_class_name_to_id = get_id_class_name_map_dict()
 class_names = get_class_name(dataset)
 
 if use_caption:
     class_index = get_class_index(dataset)
 
-caption_name_list = listdir(caption_dir)
+caption_name_list = [dict_class_name_to_id[i] for i in class_names]
 caption_path_list = [join(caption_dir, f) for f in caption_name_list]
 
 # Import stable diffusion pipeline
@@ -62,7 +64,7 @@ pipe = pipe.to(device)
 if use_caption:
     for c_index, c in enumerate(class_names):
         print("Generate %s-th class."%{c_index})
-        caption_path = caption_path_list[class_index[c_index]]
+        caption_path = caption_path_list[c_index]
         caption = load_list(caption_path)
         
         sub_dir = Path(os.path.join(out_dir, c))

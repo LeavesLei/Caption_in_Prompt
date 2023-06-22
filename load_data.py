@@ -1,4 +1,5 @@
 import os
+import json
 import random
 import numpy as np
 from collections import defaultdict
@@ -346,7 +347,7 @@ def get_curated_dataset(dataset, data_path, class_names, sample_ratio=1.):
     dst.samples = filtered_samples
     dst.labels = [s[1] for s in dst.samples]
     print(len(filtered_samples))
-        
+
     if sample_ratio < 1:
         sample_num = int(len(dst) * sample_ratio)
         sample_index = np.random.permutation(len(dst))[:sample_num]

@@ -5,6 +5,8 @@ import numpy as np
 def write_diffusion_jobs(
                sku='G1', 
                dataset='imagenette',
+               caption_data='imagenet',
+               caption_model='blip2',
                target_service='sing', 
                target_name='msroctows', 
                sla_tier='premium'):
@@ -27,7 +29,7 @@ def write_diffusion_jobs(
     local_dir = './'
 
     #storage:
-    yaml_name = f'synthesize_{dataset}_vit_gpt2'
+    yaml_name = f'synthesize_{dataset}_{caption_model}'
     filepath = 'diffusion_caption_haoc'
     storage_account_name = 'ussclowpriv100data'
     data_container_name = 'jindwang'
@@ -67,17 +69,21 @@ def write_diffusion_jobs(
 
 
         guidance_list = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 7.5]
-        caption_list = [True, False]
-        caption_dir = '/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_vit-gpt2'
-        base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230609/vit-gpt2'
+        # caption_list = [True, False]
+        if caption_model is not None:
+            caption_list = [True]
+        else:
+            caption_list = [False]
+        caption_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/{caption_data}_caption_{caption_model}'
+        base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/{dataset}'
         
         jobs_list = []
         job_cnt = 0
         for guidance_scale in guidance_list:
             for use_caption in caption_list:
                 
-                data_dir = base_data_dir + f'/{dataset}_scale{guidance_scale}_caption{use_caption}'
-                job_name = f'{dataset}_scale{guidance_scale}_caption{use_caption}'
+                data_dir = base_data_dir + f'/{dataset}_scale{guidance_scale}_caption{caption_model}'
+                job_name = f'{dataset}_scale{guidance_scale}_caption{caption_model}'
                 
                 if use_caption:
                     command = f'python image_dataset_generate.py --dataset {dataset} --guidance_scale {guidance_scale} --use_caption --data_dir {data_dir} --caption_dir {caption_dir}'
@@ -104,6 +110,8 @@ def write_diffusion_jobs(
 def write_diffusion_jobs_imagenet100(
                sku='G1', 
                dataset='imagenet100',
+               caption_data='imagenet',
+               caption_model='blip2',
                target_service='sing', 
                target_name='msroctows', 
                sla_tier='premium'):
@@ -126,7 +134,7 @@ def write_diffusion_jobs_imagenet100(
     local_dir = './'
 
     #storage:
-    yaml_name = f'synthesize_{dataset}'
+    yaml_name = f'synthesize_{dataset}_{caption_model}'
     filepath = 'diffusion_caption_haoc'
     storage_account_name = 'ussclowpriv100data'
     data_container_name = 'jindwang'
@@ -165,21 +173,22 @@ def write_diffusion_jobs_imagenet100(
         w.write('jobs:'+'\n')
 
 
-        guidance_list = [1.5, 2]
-        caption_list = [True, False]
-        caption_dir = '/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2'
-        base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230609'
+        guidance_list = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 7.5]
+        if caption_model is not None:
+            caption_list = [True]
+        else:
+            caption_list = [False]
+        caption_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/{caption_data}_caption_{caption_model}'
+        base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/{dataset}'
 
         data_piece_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
-        
-        
         jobs_list = []
         job_cnt = 0
         for guidance_scale in guidance_list:
             for use_caption in caption_list:
                 for data_piece in data_piece_list:
-                    data_dir = base_data_dir + f'/{dataset}_scale{guidance_scale}_caption{use_caption}'
-                    job_name = f'{dataset}_scale{guidance_scale}_caption{use_caption}_piece{data_piece}'
+                    data_dir = base_data_dir + f'/{dataset}_scale{guidance_scale}_caption{caption_model}'
+                    job_name = f'{dataset}_scale{guidance_scale}_caption{caption_model}_piece{data_piece}'
                     
                     if use_caption:
                         command = f'python image_dataset_generate_imagenet100.py --dataset {dataset} --guidance_scale {guidance_scale} --use_caption --data_dir {data_dir} --caption_dir {caption_dir} --data_piece {data_piece}'
@@ -206,6 +215,8 @@ def write_diffusion_jobs_imagenet100(
 def write_diffusion_jobs_imagenet1k(
                sku='G1', 
                dataset='imagenet1k',
+               caption_data='imagenet',
+               caption_model='blip2',
                target_service='sing', 
                target_name='msroctows', 
                sla_tier='premium'):
@@ -271,8 +282,8 @@ def write_diffusion_jobs_imagenet1k(
         guidance_list = [1.5]
         # caption_list = [True, False]
         caption_list = [True, False]
-        caption_dir = '/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2'
-        base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230610/{dataset}'
+        caption_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/{caption_data}_caption_{caption_model}'
+        base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/{dataset}'
 
         # data_piece_list = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9]
         data_piece_list = np.arange(100)
@@ -283,8 +294,8 @@ def write_diffusion_jobs_imagenet1k(
         for guidance_scale in guidance_list:
             for use_caption in caption_list:
                 for data_piece in data_piece_list:
-                    data_dir = base_data_dir + f'/{dataset}_scale{guidance_scale}_caption{use_caption}'
-                    job_name = f'{dataset}_scale{guidance_scale}_caption{use_caption}_piece{data_piece}'
+                    data_dir = base_data_dir + f'/{dataset}_scale{guidance_scale}_caption{caption_model}'
+                    job_name = f'{dataset}_scale{guidance_scale}_caption{caption_model}_piece{data_piece}'
                     
                     if use_caption:
                         command = f'python image_dataset_generate_imagenet1k.py --dataset {dataset} --guidance_scale {guidance_scale} --use_caption --data_dir {data_dir} --caption_dir {caption_dir} --data_piece {data_piece}'
@@ -525,8 +536,19 @@ def write_train_jobs_imagenet100(
 
 
 if __name__ == '__main__':
-    write_diffusion_jobs(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenette')
-    write_diffusion_jobs_imagenet100(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenet100')
-    write_diffusion_jobs_imagenet1k(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenet1k')
-    write_train_jobs(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenette')
-    write_train_jobs_imagenet100(sku='G4', target_service='aml', target_name='canadav100cl', dataset='imagenet100', caption='blip')
+    write_diffusion_jobs(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenette', caption_model='blip2')
+    write_diffusion_jobs(sku='G1', target_service='aml', target_name='australia1GPUcl', dataset='imagenette', caption_model='syn_blip2', caption_data='imagenet_gs_1.5')
+    write_diffusion_jobs(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenette', caption_model='vit-gpt2')
+    write_diffusion_jobs(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenette', caption_model=None)
+    # TODO: llm rewrite
+    
+    
+    write_diffusion_jobs_imagenet100(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenet100', caption_model='blip2')
+    write_diffusion_jobs_imagenet100(sku='G1', target_service='aml', target_name='australia1GPUcl', dataset='imagenet100', caption_model='syn_blip2', caption_data='imagenet_gs_1.5')
+    write_diffusion_jobs_imagenet100(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenet100', caption_model='vit-gpt2')
+    write_diffusion_jobs_imagenet100(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenet100', caption_model=None)
+    
+    # write_diffusion_jobs_imagenet1k(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenet1k')
+    
+    # write_train_jobs(sku='G1', target_service='aml', target_name='canada1GPUcl', dataset='imagenette')
+    # write_train_jobs_imagenet100(sku='G4', target_service='aml', target_name='canadav100cl', dataset='imagenet100', caption='blip')

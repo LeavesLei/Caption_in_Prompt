@@ -51,7 +51,6 @@ dict_id_to_class_name, dict_class_name_to_id = get_id_class_name_map_dict()
 
 # divide the classes
 class_names = get_class_name(dataset)
-caption_name_list = [dict_class_name_to_id[i] for i in class_names]
 
 n_divide = len(class_names) // n_gpus_for_one_dataset
 class_names = class_names[data_piece * n_divide: (data_piece + 1) * n_divide]
@@ -61,6 +60,7 @@ if use_caption:
     class_index = class_index[data_piece * n_divide: (data_piece + 1) * n_divide]
 
 # caption_name_list = listdir(caption_dir)
+caption_name_list = [dict_class_name_to_id[i] for i in class_names]
 caption_path_list = [join(caption_dir, f) for f in caption_name_list]
 
 # Import stable diffusion pipeline

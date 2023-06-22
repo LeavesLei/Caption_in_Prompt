@@ -1,0 +1,6 @@
+diffusion_data/
+experiments/
+caption_data/
+imagenet_gs_1.5_caption_syn_blip2/
+*.log
+*.log*

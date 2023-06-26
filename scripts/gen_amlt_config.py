@@ -347,7 +347,7 @@ def write_llm_rewrite_jobs(
     # local directory of the code. this will be uploaded to the server.
     # $CONFIG_DIR is expanded to the directory of this config file
     local_dir = './'    
-    n_gpus_for_one_dataset = 50
+    n_gpus_for_one_dataset = 200
     num_gpus = int(sku[-1])
     data_piece_list = np.arange(n_gpus_for_one_dataset)
 
@@ -391,6 +391,9 @@ def write_llm_rewrite_jobs(
         w.write('jobs:'+'\n')
 
 
+        n_gpus_for_one_dataset = 200
+        num_gpus = int(sku[-1])
+        data_piece_list = np.arange(n_gpus_for_one_dataset)
         caption_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/{caption_data}_caption_{caption_model}'
         base_save_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230624/{caption_data}_caption_{caption_model}_llm_rewrite_raw'
 
@@ -671,4 +674,4 @@ if __name__ == '__main__':
     write_train_jobs_imagenet100(sku='G4', target_service='aml', target_name='canadav100cl', dataset='imagenet100')
     
     
-    write_llm_rewrite_jobs(sku='G4', target_service='aml', target_name='koreav100cl', caption_data='imagenet', caption_model='blip2', llm_model='vicuna-13b-v1.3', port=9008)
+    write_llm_rewrite_jobs(sku='G4', target_service='sing', target_name='canadav100cl', caption_data='imagenet', caption_model='blip2', llm_model='vicuna-13b-v1.3', port=9008)

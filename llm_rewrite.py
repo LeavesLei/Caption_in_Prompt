@@ -59,17 +59,46 @@ def main(args):
     save_dir = save_dir + f'{model}_temp{tempreture}_num{num_rewrite_per_caption}'
     os.makedirs(save_dir, exist_ok=True)
     raw_output_path = os.path.join(save_dir, f'raw_output_{data_piece}.txt')
+    with open(raw_output_path, 'a') as f:
+        f.write('start rewrite\n')
+    
+    start_idx, start_j = 0, 0
+    re_startidx = r"Generate (([0-9]|\.)*) class"
+    re_startj =  r"class (([0-9]|\.)*) caption"
+    try:
+        with open(raw_output_path, 'r') as f:
+            for line in f.readlines():
+                if line.startswith('Generate'):
+                    start_idx = int(re.search(re_startidx, line).group(1))
+                    start_j = int(re.search(re_startj, line).group(1))
+    except:
+        pass
+    print(f"start idx {start_idx}, start j {start_j}")
     
     # category = 'tuna'
     # caption = 'A photo of tuna. A tuna on the beach.'
     for idx, class_name in tqdm(enumerate(class_names), total=len(class_names)):
+        
+        if idx < start_idx:
+            print(f"skip {idx} class")
+            continue
+        
         caption_path = caption_path_list[idx]
         caption_list = load_list(caption_path)
         caption_list = list(set(caption_list))
 
         rewrite_caption_list = []
-        print(f"Generate {class_name}: {caption_list[0]}")
-        for caption in tqdm(caption_list, total=len(caption_list)):
+        for j, caption in tqdm(enumerate(caption_list), total=len(caption_list)):
+        
+            if j < start_j:
+                print(f"skip {j} caption")
+                continue
+        
+            print(f"Generate {class_name}: {caption_list[0]}\n")
+            start_text = f"Generate {idx} class {j} caption"
+            with open(raw_output_path, 'a') as f:
+                    f.write(start_text + '\n')
+        
             prompt = f"This is the image caption about {class_name} category, please refine and rewrite it to {num_rewrite_per_caption} more diverse and informative caption candidates.\n" +\
                      f"#Caption\n{caption}\n" +\
                       "#Answer\n"
@@ -80,15 +109,12 @@ def main(args):
                 # print the completion
                 raw_output = prompt + completion.choices[0].text
                 print(raw_output)
+                print('\n')
 
                 with open(raw_output_path, 'a') as f:
                     f.write(raw_output + '\n')
             except:
                 continue
-            
-        #     rewrite_captions = process_raw_text(raw_output)
-        #     rewrite_caption_list.extend(rewrite_captions)
-        # save_list(rewrite_caption_list, os.path.join(save_dir, dict_class_name_to_id[class_name]))
             
 
 if __name__ == '__main__':

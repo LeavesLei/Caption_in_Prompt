@@ -1,0 +1,207 @@
+description: stable diffusion caption train tasks
+target:
+ service: aml
+ name: canadav100cl
+environment:
+ image: amlt-sing/pytorch-1.11.0-cuda11.6
+ setup:
+  - python -m pip install -U pip
+  - pip install numpy
+  - pip install --upgrade torchvision 
+  - pip install --upgrade torch 
+  - pip install transformers
+  - pip install diffusers
+  - pwd 
+
+code:
+ local_dir: ./
+storage:
+ diffusion_caption_haoc:
+  storage_account_name: ussclowpriv100data
+  container_name: v-haochen2
+  is_output: True
+ data:
+  storage_account_name: ussclowpriv100data
+  container_name: jindwang
+  mount_dir: /mnt/data
+jobs:
+- name: imagenet100_scale1.5_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 1.5 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale1.5_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale1.5_captionNone
+
+- name: imagenet100_scale1.5_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale1.5_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale1.5_captionblip2
+
+- name: imagenet100_scale1.5_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale1.5_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale1.5_captionsyn_blip2
+
+- name: imagenet100_scale1.5_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 1.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale1.5_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale1.5_captionvit-gpt2
+
+- name: imagenet100_scale1_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 1 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale1_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale1_captionNone
+
+- name: imagenet100_scale1_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 1 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale1_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale1_captionblip2
+
+- name: imagenet100_scale1_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 1 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale1_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale1_captionsyn_blip2
+
+- name: imagenet100_scale1_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 1 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale1_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale1_captionvit-gpt2
+
+- name: imagenet100_scale2.5_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 2.5 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale2.5_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale2.5_captionNone
+
+- name: imagenet100_scale2.5_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 2.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale2.5_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale2.5_captionblip2
+
+- name: imagenet100_scale2.5_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 2.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale2.5_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale2.5_captionsyn_blip2
+
+- name: imagenet100_scale2.5_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 2.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale2.5_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale2.5_captionvit-gpt2
+
+- name: imagenet100_scale2_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 2 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale2_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale2_captionNone
+
+- name: imagenet100_scale2_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale2_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale2_captionblip2
+
+- name: imagenet100_scale2_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale2_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale2_captionsyn_blip2
+
+- name: imagenet100_scale2_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 2 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale2_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale2_captionvit-gpt2
+
+- name: imagenet100_scale3_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 3 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale3_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale3_captionNone
+
+- name: imagenet100_scale3_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 3 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale3_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale3_captionblip2
+
+- name: imagenet100_scale3_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 3 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale3_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale3_captionsyn_blip2
+
+- name: imagenet100_scale3_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 3 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale3_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale3_captionvit-gpt2
+
+- name: imagenet100_scale4_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 4 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale4_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale4_captionNone
+
+- name: imagenet100_scale4_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 4 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale4_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale4_captionblip2
+
+- name: imagenet100_scale4_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 4 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale4_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale4_captionsyn_blip2
+
+- name: imagenet100_scale4_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 4 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale4_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale4_captionvit-gpt2
+
+- name: imagenet100_scale5_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 5 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale5_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale5_captionNone
+
+- name: imagenet100_scale5_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale5_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale5_captionblip2
+
+- name: imagenet100_scale5_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale5_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale5_captionsyn_blip2
+
+- name: imagenet100_scale5_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale5_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale5_captionvit-gpt2
+
+- name: imagenet100_scale6_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 6 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale6_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale6_captionNone
+
+- name: imagenet100_scale6_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 6 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale6_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale6_captionblip2
+
+- name: imagenet100_scale6_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 6 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale6_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale6_captionsyn_blip2
+
+- name: imagenet100_scale6_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 6 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale6_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale6_captionvit-gpt2
+
+- name: imagenet100_scale7.5_captionNone
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 7.5 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale7.5_captionNone --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale7.5_captionNone
+
+- name: imagenet100_scale7.5_captionblip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 7.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale7.5_captionblip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale7.5_captionblip2
+
+- name: imagenet100_scale7.5_captionsyn_blip2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 7.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale7.5_captionsyn_blip2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale7.5_captionsyn_blip2
+
+- name: imagenet100_scale7.5_captionvit-gpt2
+  sku: G4
+  command:
+  - CUDA_VISIBLE_DEVICES=0,1,2,3 torchrun --nproc-per-node=4 eval_dataset_distributed.py --dataset imagenet100 --guidance_scale 7.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenet100/imagenet100_scale7.5_captionvit-gpt2 --batch_size 512 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenet100/imagenet100_scale7.5_captionvit-gpt2
+

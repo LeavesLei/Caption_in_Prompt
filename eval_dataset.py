@@ -32,6 +32,7 @@ use_caption = args.use_caption
 batch_size = args.batch_size
 
 
+
 if use_caption:
     dataset_name = dataset + "_use_caption_gs_" + str(guidance_scale)
 else:
@@ -72,6 +73,7 @@ for epoch in tqdm(range(start_epoch, start_epoch + num_epochs)):
 print(test(net, testloader, 1))
 
 
-os.makedirs(args.save_dir, exist_ok=True)
+save_path = os.path.join(args.save_dir, 'models/resnet50_' + dataset_name + '_caption' + str(use_caption))
+os.makedirs(save_path, exist_ok=True)
 # TODO: fix saving model
-torch.save(net, os.path.join(args.save_dir, 'models/resnet50_' + dataset_name + '_caption' + str(use_caption)))
+torch.save(net, save_path)

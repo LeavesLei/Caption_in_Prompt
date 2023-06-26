@@ -11,7 +11,7 @@ parser = argparse.ArgumentParser()
 parser.add_argument("--dataset", type=str, default="imagenet1k", help="dataset")
 parser.add_argument("--guidance_scale", type=float, default=1.5, help="guidance scale")
 parser.add_argument("--data_path", type=str, default="/media/slei/slei_disk/data/curated_imagenet", help="data path")
-parser.add_argument("--caption", type=str, default="none", help="type of caption")
+parser.add_argument('--use_caption', action='store_true')
 parser.add_argument("--batch_size", type=int, default=64, help="batch size for training")
 parser.add_argument("--save_dir", type=str, default="/media/slei/slei_disk/data/curated_imagenet", help="save path")
 # parser.add_argument('--local-rank', default=-1, type=int, help='node rank for distributed training')
@@ -30,7 +30,7 @@ ImageNetPath = '/mnt/data/dataset/imagenet/ImageNet'
 dataset = args.dataset
 guidance_scale = args.guidance_scale
 data_path = args.data_path
-caption = args.caption
+use_caption = args.use_caption
 batch_size = args.batch_size
 local_rank = int(os.environ["LOCAL_RANK"])
 
@@ -41,14 +41,11 @@ dist.init_process_group(backend="nccl")
 print("nprocs: %s"%{nprocs})
 print("normalized batch size: %s"%{batch_size})
 
-if caption=='none':
-    dataset_name = dataset + "_gs_" + str(guidance_scale)
-elif 'blip' in caption:
+if use_caption:
     dataset_name = dataset + "_use_caption_gs_" + str(guidance_scale)
-elif 'vit' in caption:
-    dataset_name = dataset + "_vit-gpt_gs_" + str(guidance_scale)
 else:
-    raise ValueError("Wrong caption value")
+    dataset_name = dataset + "_gs_" + str(guidance_scale)
+
 
 torch.backends.cudnn.enable =True
 torch.backends.cudnn.benchmark = True
@@ -97,4 +94,7 @@ print("Test accuracy: ")
 print(test_distributed(net, testloader, local_rank, 1))
 
 if local_rank == 0:
-    torch.save(net, f'{args.save_dir}/models/resnet50_' + dataset_name)
+    save_path = os.path.join(args.save_dir, 'models/resnet50_' + dataset_name + '_caption' + str(use_caption))
+    os.makedirs(save_path, exist_ok=True)
+    # TODO: fix saving model
+    torch.save(net, save_path)

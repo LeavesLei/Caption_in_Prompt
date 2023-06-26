@@ -1,0 +1,279 @@
+description: vicuna caption rewrite tasks
+target:
+ service: aml
+ name: japanv100cl
+environment:
+ image: amlt-sing/pytorch-1.11.0-cuda11.6
+ setup:
+  - python -m pip install -U pip
+  - pip install numpy
+  - pip install transformers
+  - pip install diffusers
+  - pip install tqdm
+  - pip install fschat
+  - pip install deepspeed
+  - pip install openai
+  - pip install typing-extensions==4.5.0
+  - pwd 
+
+code:
+ local_dir: ./
+storage:
+ diffusion_caption_haoc:
+  storage_account_name: ussclowpriv100data
+  container_name: v-haochen2
+  is_output: True
+ data:
+  storage_account_name: ussclowpriv100data
+  container_name: jindwang
+  mount_dir: /mnt/data
+jobs:
+- name: llm_rewrite_imagenet_blip2_25
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 25
+
+- name: llm_rewrite_imagenet_blip2_26
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 26
+
+- name: llm_rewrite_imagenet_blip2_27
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 27
+
+- name: llm_rewrite_imagenet_blip2_28
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 28
+
+- name: llm_rewrite_imagenet_blip2_29
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 29
+
+- name: llm_rewrite_imagenet_blip2_30
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 30
+
+- name: llm_rewrite_imagenet_blip2_31
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 31
+
+- name: llm_rewrite_imagenet_blip2_32
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 32
+
+- name: llm_rewrite_imagenet_blip2_33
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 33
+
+- name: llm_rewrite_imagenet_blip2_34
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 34
+
+- name: llm_rewrite_imagenet_blip2_35
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 35
+
+- name: llm_rewrite_imagenet_blip2_36
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 36
+
+- name: llm_rewrite_imagenet_blip2_37
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 37
+
+- name: llm_rewrite_imagenet_blip2_38
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 38
+
+- name: llm_rewrite_imagenet_blip2_39
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 39
+
+- name: llm_rewrite_imagenet_blip2_40
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 40
+
+- name: llm_rewrite_imagenet_blip2_41
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 41
+
+- name: llm_rewrite_imagenet_blip2_42
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 42
+
+- name: llm_rewrite_imagenet_blip2_43
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 43
+
+- name: llm_rewrite_imagenet_blip2_44
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 44
+
+- name: llm_rewrite_imagenet_blip2_45
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 45
+
+- name: llm_rewrite_imagenet_blip2_46
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 46
+
+- name: llm_rewrite_imagenet_blip2_47
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 47
+
+- name: llm_rewrite_imagenet_blip2_48
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 48
+
+- name: llm_rewrite_imagenet_blip2_49
+  sku: G4
+  command:
+  - nohup python3 -m fastchat.serve.controller > controller.log &
+  - nohup python3 -m fastchat.serve.model_worker --model-path lmsys/vicuna-13b-v1.3 --num-gpus 4 > model_worker.log &
+  - sleep 500
+  - nohup python3 -m fastchat.serve.openai_api_server --host localhost --port 9008 > api_server.log &
+  - sleep 10
+  - python3 llm_rewrite.py --caption-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenet_caption_blip2 --save-dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/llm_rewrite/20230623/imagenet_caption_blip2_llm_rewrite_raw --llm-per-caption 5 --llm-tempreture 0.5 --port 9008 --model vicuna-13b-v1.3 --n_gpus_for_one_dataset 50 --data_piece 49

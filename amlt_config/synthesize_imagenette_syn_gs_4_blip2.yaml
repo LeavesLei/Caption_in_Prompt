@@ -1,0 +1,73 @@
+description: stable diffusion caption synthesize tasks vit gpt2
+target:
+ service: aml
+ name: canada1GPUcl
+environment:
+ image: amlt-sing/pytorch-1.11.0-cuda11.6
+ setup:
+  - python -m pip install -U pip
+  - pip install numpy
+  - pip install --upgrade torchvision 
+  - pip install --upgrade torch 
+  - pip install transformers
+  - pip install diffusers
+  - pip install tqdm
+  - pwd 
+
+code:
+ local_dir: ./
+storage:
+ diffusion_caption_haoc:
+  storage_account_name: ussclowpriv100data
+  container_name: v-haochen2
+  is_output: True
+ data:
+  storage_account_name: ussclowpriv100data
+  container_name: jindwang
+  mount_dir: /mnt/data
+jobs:
+- name: imagenette_scale1.5_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 1.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1.5_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+
+- name: imagenette_scale1_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 1 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+
+- name: imagenette_scale2.5_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 2.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2.5_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+
+- name: imagenette_scale2_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 2 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+
+- name: imagenette_scale3_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 3 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale3_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+
+- name: imagenette_scale4_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 4 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale4_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+
+- name: imagenette_scale5_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale5_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+
+- name: imagenette_scale6_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 6 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale6_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+
+- name: imagenette_scale7.5_captionsyn_gs_4_blip2
+  sku: G1
+  command:
+  - python image_dataset_generate.py --dataset imagenette --guidance_scale 7.5 --use_caption --data_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale7.5_captionsyn_gs_4_blip2 --caption_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/caption_data/imagenette_caption_syn_gs_4_blip2
+

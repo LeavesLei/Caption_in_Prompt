@@ -57,7 +57,7 @@ def test_distributed(net, testloader, local_rank, epoch=1):
             outputs = net(inputs)
             loss = criterion(outputs, targets)
 
-            torch.distributed.barrier()
+            # torch.distributed.barrier()
             
             test_loss += loss.item()
             _, predicted = torch.max(outputs.data, 1)
@@ -91,7 +91,7 @@ def train(net, trainloader, epoch=1, lr=0.1):
         outputs = net(inputs.float())
         loss = criterion(outputs, targets)  # Loss
 
-        torch.distributed.barrier()
+        # torch.distributed.barrier()
         
         loss.backward()  # Backward Propagation
         optimizer.step()  # Optimizer update

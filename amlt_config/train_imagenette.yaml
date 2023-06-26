@@ -1,0 +1,207 @@
+description: stable diffusion caption train tasks
+target:
+ service: aml
+ name: canada1GPUcl
+environment:
+ image: amlt-sing/pytorch-1.11.0-cuda11.6
+ setup:
+  - python -m pip install -U pip
+  - pip install numpy
+  - pip install --upgrade torchvision 
+  - pip install --upgrade torch 
+  - pip install transformers
+  - pip install diffusers
+  - pwd 
+
+code:
+ local_dir: ./
+storage:
+ diffusion_caption_haoc:
+  storage_account_name: ussclowpriv100data
+  container_name: v-haochen2
+  is_output: True
+ data:
+  storage_account_name: ussclowpriv100data
+  container_name: jindwang
+  mount_dir: /mnt/data
+jobs:
+- name: imagenette_scale1.5_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 1.5 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1.5_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale1.5_captionNone
+
+- name: imagenette_scale1.5_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 1.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1.5_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale1.5_captionblip2
+
+- name: imagenette_scale1.5_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 1.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1.5_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale1.5_captionsyn_blip2
+
+- name: imagenette_scale1.5_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 1.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1.5_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale1.5_captionvit-gpt2
+
+- name: imagenette_scale1_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 1 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale1_captionNone
+
+- name: imagenette_scale1_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 1 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale1_captionblip2
+
+- name: imagenette_scale1_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 1 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale1_captionsyn_blip2
+
+- name: imagenette_scale1_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 1 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale1_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale1_captionvit-gpt2
+
+- name: imagenette_scale2.5_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 2.5 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2.5_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale2.5_captionNone
+
+- name: imagenette_scale2.5_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 2.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2.5_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale2.5_captionblip2
+
+- name: imagenette_scale2.5_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 2.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2.5_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale2.5_captionsyn_blip2
+
+- name: imagenette_scale2.5_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 2.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2.5_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale2.5_captionvit-gpt2
+
+- name: imagenette_scale2_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 2 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale2_captionNone
+
+- name: imagenette_scale2_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 2 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale2_captionblip2
+
+- name: imagenette_scale2_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 2 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale2_captionsyn_blip2
+
+- name: imagenette_scale2_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 2 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale2_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale2_captionvit-gpt2
+
+- name: imagenette_scale3_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 3 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale3_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale3_captionNone
+
+- name: imagenette_scale3_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 3 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale3_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale3_captionblip2
+
+- name: imagenette_scale3_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 3 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale3_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale3_captionsyn_blip2
+
+- name: imagenette_scale3_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 3 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale3_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale3_captionvit-gpt2
+
+- name: imagenette_scale4_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 4 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale4_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale4_captionNone
+
+- name: imagenette_scale4_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 4 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale4_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale4_captionblip2
+
+- name: imagenette_scale4_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 4 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale4_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale4_captionsyn_blip2
+
+- name: imagenette_scale4_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 4 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale4_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale4_captionvit-gpt2
+
+- name: imagenette_scale5_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 5 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale5_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale5_captionNone
+
+- name: imagenette_scale5_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale5_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale5_captionblip2
+
+- name: imagenette_scale5_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale5_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale5_captionsyn_blip2
+
+- name: imagenette_scale5_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale5_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale5_captionvit-gpt2
+
+- name: imagenette_scale6_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 6 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale6_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale6_captionNone
+
+- name: imagenette_scale6_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 6 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale6_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale6_captionblip2
+
+- name: imagenette_scale6_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 6 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale6_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale6_captionsyn_blip2
+
+- name: imagenette_scale6_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 6 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale6_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale6_captionvit-gpt2
+
+- name: imagenette_scale7.5_captionNone
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 7.5 --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale7.5_captionNone --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale7.5_captionNone
+
+- name: imagenette_scale7.5_captionblip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 7.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale7.5_captionblip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale7.5_captionblip2
+
+- name: imagenette_scale7.5_captionsyn_blip2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 7.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale7.5_captionsyn_blip2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale7.5_captionsyn_blip2
+
+- name: imagenette_scale7.5_captionvit-gpt2
+  sku: G1
+  command:
+  - python eval_dataset.py --dataset imagenette --guidance_scale 7.5 --use_caption --data_path /mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette/imagenette_scale7.5_captionvit-gpt2 --batch_size 128 --save_dir /mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette/imagenette_scale7.5_captionvit-gpt2
+

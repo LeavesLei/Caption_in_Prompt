@@ -76,4 +76,4 @@ print(test(net, testloader, 1))
 save_path = os.path.join(args.save_dir, 'models/resnet50_' + dataset_name + '_caption' + str(use_caption))
 os.makedirs(save_path, exist_ok=True)
 # TODO: fix saving model
-torch.save(net, save_path)
+torch.save(net, os.path.join(save_path, 'lastest_checkpoint.pth'))

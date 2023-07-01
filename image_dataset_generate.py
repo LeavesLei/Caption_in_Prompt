@@ -8,6 +8,7 @@ import random
 from diffusers import StableDiffusionPipeline, DPMSolverMultistepScheduler
 import argparse
 from utils import load_list
+from tqdm import tqdm
 
 from load_data import get_class_name, get_class_index, get_id_class_name_map_dict
 
@@ -60,30 +61,37 @@ pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float
 #pipe.scheduler =  DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 num_inference_steps = 50
 pipe = pipe.to(device)
+batch_size = 2
 
 if use_caption:
-    for c_index, c in enumerate(class_names):
+    for c_index, c in tqdm(enumerate(class_names), total=len(class_names)):
         print("Generate %s-th class."%{c_index})
-        caption_path = caption_path_list[c_index]
+        caption_path = caption_path_list[class_index[c_index]]
         caption = load_list(caption_path)
         
         sub_dir = Path(os.path.join(out_dir, c))
         sub_dir.mkdir(exist_ok=True, parents=True)
         
-        for i in range(len(caption)):
-            prompt = f'a photo of {c}, ' + caption[i]
-            print(prompt)
+        for i in range(0, len(caption), batch_size):
+            prompt_list = []
+            for j in range(batch_size):
+                if i + j >= len(caption):
+                    break
+                prompt = f'a photo of {c}, ' + caption[i + j]
+                prompt_list.append(prompt)
+            if len(prompt_list) == 0:
+                continue
             seed = random.randint(0, 10000)
             with autocast('cuda'):
                 generator = torch.Generator(device=device).manual_seed(seed)
-                nsfw = True
-                while nsfw:
-                    out = pipe(prompt, generator=generator, num_inference_steps=num_inference_steps, guidance_scale=guidance_scale)
-                    nsfw = out["nsfw_content_detected"][0] # avoid saving NSFW/black images
-            
-            image = out.images[0]
-            outpath = sub_dir /  f"{c}_{i}.jpg"
-            image.save(outpath)
+                images, nsfws = pipe(prompt_list, generator=generator, num_inference_steps=num_inference_steps, guidance_scale=guidance_scale, return_dict=False, num_images_per_prompt=1)
+
+                for img, nsfw in zip(images, nsfws):
+                    if nsfw:
+                        continue
+                    
+                    outpath = sub_dir /  f"{c}_{i+j}.jpg"
+                    img.save(outpath)
         
 else:
     for c in class_names:

@@ -14,13 +14,13 @@ from load_data import get_class_name, get_class_index, get_id_class_name_map_dic
 
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--dataset", type=str, default="imagenet100", help="dataset")
+parser.add_argument("--dataset", type=str, default="imagenet1k", help="dataset")
 parser.add_argument("--n_img_per_class", type=int, default=1300, help="number of generated images for each class")
 parser.add_argument("--guidance_scale", type=float, default=2, help="guidance scale")
 parser.add_argument("--data_dir", type=str, default="/media/slei/slei_disk/data/curated_imagenet", help="path to save generated dataset")
 parser.add_argument('--use_caption', action='store_true')
 parser.add_argument("--caption_dir", type=str, default="/media/slei/slei_disk/distill_image_to_text/imagenet_caption_blip2", help="path of image captioning")
-parser.add_argument("--n_gpus_for_one_dataset", type=int, default=10, help="xxx")
+parser.add_argument("--n_gpus_for_one_dataset", type=int, default=100, help="xxx")
 parser.add_argument("--data_piece", type=int, default=0, help="xxx")
 args = parser.parse_args()
 
@@ -48,9 +48,11 @@ else:
 out_dir = Path(os.path.join(data_dir, subset_name))
 out_dir.mkdir(exist_ok=True, parents=True)
 
+dict_id_to_class_name, dict_class_name_to_id = get_id_class_name_map_dict()
+
 # divide the classes
 class_names = get_class_name(dataset)
-dict_id_to_class_name, dict_class_name_to_id = get_id_class_name_map_dict()
+
 n_divide = len(class_names) // n_gpus_for_one_dataset
 class_names = class_names[data_piece * n_divide: (data_piece + 1) * n_divide]
 
@@ -58,10 +60,9 @@ if use_caption:
     class_index = get_class_index(dataset)
     class_index = class_index[data_piece * n_divide: (data_piece + 1) * n_divide]
 
-caption_name_list = [dict_class_name_to_id[i] for i in class_names]
 # caption_name_list = listdir(caption_dir)
+caption_name_list = [dict_class_name_to_id[i] for i in class_names]
 caption_path_list = [join(caption_dir, f) for f in caption_name_list]
-print(len(caption_path_list))
 
 # Import stable diffusion pipeline
 model_id = "runwayml/stable-diffusion-v1-5"
@@ -71,7 +72,7 @@ pipe = StableDiffusionPipeline.from_pretrained(model_id, torch_dtype=torch.float
 #pipe.scheduler =  DPMSolverMultistepScheduler.from_config(pipe.scheduler.config)
 num_inference_steps = 50
 pipe = pipe.to(device)
-batch_size = 2
+batch_size = 10
 
 if use_caption:
     for c_index, c in tqdm(enumerate(class_names), total=len(class_names)):
@@ -109,6 +110,10 @@ else:
         
         sub_dir = Path(os.path.join(out_dir, c))
         sub_dir.mkdir(exist_ok=True, parents=True)
+
+
+        # TODO: rewrite this part
+
         for i in range(n_img_per_class):
             seed = random.randint(0, 10000)
             with autocast('cuda'):

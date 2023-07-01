@@ -487,9 +487,11 @@ def write_train_jobs(
 
 
         guidance_list = [1, 1.5, 2, 2.5, 3, 4, 5, 6, 7.5]
-        caption_model_list = ['blip2', 'vit-gpt2', 'syn_blip2', None]
-        base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/{dataset}'
-        base_save_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/{dataset}'
+        # caption_model_list = ['blip2', 'vit-gpt2', 'syn_blip2', None]
+        # base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/{dataset}'
+        caption_model_list = ['syn_gs_1_blip2', 'syn_gs_1.5_blip2', 'syn_gs_2_blip2', 'syn_gs_2.5_blip2', 'syn_gs_3_blip2', 'syn_gs_4_blip2', 'syn_gs_5_blip2', 'syn_gs_6_blip2', 'syn_gs_7.5_blip2']
+        base_data_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train/20230622/imagenette'
+        base_save_dir = f'/mnt/diffusion_caption_haoc/projects/diffusion_caption_train_models/20230622/imagenette'
         batch_size = 128 
         
         jobs_list = []
@@ -497,6 +499,7 @@ def write_train_jobs(
         for guidance_scale in guidance_list:
             for caption_model in caption_model_list:
                 
+
                 data_dir = base_data_dir + f'/{dataset}_scale{guidance_scale}_caption{caption_model}'
                 save_dir = base_save_dir + f'/{dataset}_scale{guidance_scale}_caption{caption_model}'
                 job_name = f'{dataset}_scale{guidance_scale}_caption{caption_model}'

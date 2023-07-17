@@ -11,11 +11,13 @@ from timm.models import create_model
 import argparse
 
 parser = argparse.ArgumentParser()
+parser.add_argument("--net_arch", type=str, default="resnet50", help="network architecture")
 parser.add_argument("--model_path", type=str, default="/media/slei/slei_disk/models/imagenet_1k_sd.pth", help="path to load pretrained model")
 parser.add_argument("--eval_dataset", type=str, default="val", help="name of test dataset")
 parser.add_argument("--data_path", type=str, default="/media/slei/slei_disk/data", help="path to load test set for evalution")
 parser.add_argument('--eval_all_datasets', action='store_true')
 args = parser.parse_args()
+
 
 # Print Args
 print("--------args----------")
@@ -23,6 +25,7 @@ for k in list(vars(args).keys()):
     print("%s: %s" % (k, vars(args)[k]))
 print("--------args----------\n")
 
+net_arch = args.net_arch
 model_path = args.model_path
 data_path = args.data_path
 eval_dataset = args.eval_dataset
@@ -115,8 +118,13 @@ def eval_dst(net, dst_name, data_path):
 
 
 # load pretrained model
-net = torchvision.models.resnet50().to(device)
-net.load_state_dict(torch.load(model_path), strict=False)
+if 'resnet' in net_arch:
+    net = torchvision.models.resnet50().to(device)
+elif 'vit' in net_arch:
+    net = create_model('vit_base_patch16_224', in_chans=3, num_classes=1000, drop_rate=0).to(device)
+    #net = torchvision.models.vit_b_16().to(device)
+
+net.load_state_dict(torch.load(model_path)['state_dict'], strict=True)
 net.eval()
 
 # eval

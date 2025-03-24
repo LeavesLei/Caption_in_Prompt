@@ -4,6 +4,8 @@ Official repository for the IJCV 2025 paper "[Image Captions are Natural Prompts
 
 \* Contributed equally.
 
+(The repository is still under construction)
+
 ## Dependencies
 
 - Python 3.7

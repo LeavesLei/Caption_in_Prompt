@@ -1,4 +1,14 @@
-# caption_to_image
+# Caption in Prompt
+
+Official repository for the IJCV 2025 paper "[Image Captions are Natural Prompts for Text-to-Image Models (arXiv version)](https://arxiv.org/abs/2307.08526)" by Shiye Lei\*, Hao Chen\*, Sen Zhang, Bo Zhao, and Dacheng Tao.
+
+\* Contributed equally.
+
+## Dependencies
+
+- Python 3.7
+- Pytorch 1.11
+
 
 Download ImageNet_Caption_Blip2: https://drive.google.com/file/d/1wS-ikxydoZeHXjQspJTIT0rNiq-t-zF9/view?usp=sharing
 
@@ -13,3 +23,8 @@ Download ImageNet_Caption_Blip2: https://drive.google.com/file/d/1wS-ikxydoZeHXj
 - `data_path`: same as the data_dir
 - `ImageNetPath`: path of ImageNet
 - `use_caption`
+
+
+## Contact
+
+For any issue, please kindly contact Shiye Lei: [leishiye@gmail.com](mailto:leishiye@gmail.com)

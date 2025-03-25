@@ -1,6 +1,6 @@
 # Caption in Prompt
 
-Official repository for the IJCV 2025 paper "[Image Captions are Natural Prompts for Text-to-Image Models (arXiv version)](https://arxiv.org/abs/2307.08526)" by Shiye Lei\*, Hao Chen\*, Sen Zhang, Bo Zhao, and Dacheng Tao.
+Official repository for the IJCV paper "[Image Captions are Natural Prompts for Text-to-Image Models (arXiv version)](https://arxiv.org/abs/2307.08526)" by Shiye Lei\*, Hao Chen\*, Sen Zhang, Bo Zhao, and Dacheng Tao.
 
 \* Contributed equally.
 

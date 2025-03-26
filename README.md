@@ -10,23 +10,34 @@ Official repository for the IJCV paper "[Image Captions are Natural Prompts for 
 
 - Python 3.7
 - Pytorch 1.11
+- transformers
+- diffusers
 
+## Quick Start
 
-Download ImageNet_Caption_Blip2: https://drive.google.com/file/d/1wS-ikxydoZeHXjQspJTIT0rNiq-t-zF9/view?usp=sharing
+#### Image Caption Generation
+`python image_capotion_generate.py`
 
-`image_dataset_generate.py`:
-- `guidance_scale` = [1, 1.5, 2, 2.5. 3, 4, 5, 6, 7.5]
-- `data_dir`:  path to save the generated dataset
-- `use_caption`
-- `caption_dir`: path of image caption file
+#### Generate Synthetic ImageNet1K
+- **With caption**
 
-`eval_dataset.py`:
-- `guidance_scale`
-- `data_path`: same as the data_dir
-- `ImageNetPath`: path of ImageNet
-- `use_caption`
+`python image_dataset_generate.py --use_caption`
+- **With basic prompt**
 
+`python image_dataset_generate.py`
 
+#### Model Training on Syn Data
+`python train_timm.py --curated_dataset [SYN DATA PATH]`
+
+#### Evaluation
+
+- **In and Out Distribution Accuracy Evaluation**
+  
+`python eval_model.py`
+
+- **Membership Inference Attack**
+
+`eval_mi_attack.py`
 ## Contact
 
 For any issue, please kindly contact Shiye Lei: [leishiye@gmail.com](mailto:leishiye@gmail.com)

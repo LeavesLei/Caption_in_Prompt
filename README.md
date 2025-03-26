@@ -4,8 +4,6 @@ Official repository for the IJCV paper "[Image Captions are Natural Prompts for 
 
 \* Contributed equally.
 
-(The repository is still under construction)
-
 ## Dependencies
 
 - Python 3.7
@@ -15,6 +13,9 @@ Official repository for the IJCV paper "[Image Captions are Natural Prompts for 
 
 ## Quick Start
 
+- We provide the image captions extracted by [ViT-GPT2](https://github.com/LeavesLei/Caption_in_Prompt/blob/main/imagenet_caption_vit-gpt2.zip) and [BLIP2](https://github.com/LeavesLei/Caption_in_Prompt/blob/main/imagenet_caption_blip2.zip).
+- The ResNet-50 models trained on synthetic ImageNet are [available](xx).
+  
 #### Image Caption Generation
 `python image_capotion_generate.py`
 
@@ -40,4 +41,4 @@ Official repository for the IJCV paper "[Image Captions are Natural Prompts for 
 `eval_mi_attack.py`
 ## Contact
 
-For any issue, please kindly contact Shiye Lei: [leishiye@gmail.com](mailto:leishiye@gmail.com)
+For inquiries regarding synthetic data requirements or any other issues, please feel free to contact Shiye Lei: [leishiye@gmail.com](mailto:leishiye@gmail.com)

@@ -14,7 +14,7 @@ Official repository for the IJCV paper "[Image Captions are Natural Prompts for 
 ## Quick Start
 
 - We provide the image captions extracted by [ViT-GPT2](https://github.com/LeavesLei/Caption_in_Prompt/blob/main/imagenet_caption_vit-gpt2.zip) and [BLIP2](https://github.com/LeavesLei/Caption_in_Prompt/blob/main/imagenet_caption_blip2.zip).
-- The ResNet-50 models trained on synthetic ImageNet are [available](xx).
+- The ResNet-50 models trained on synthetic ImageNet are [available](https://unisydneyedu-my.sharepoint.com/:u:/g/personal/slei5230_uni_sydney_edu_au/EQxATumNWb9GhcbXp9XdDiQBjQSEgnuZ2tWRsk0R-yXPbw?e=PhO0Ff).
   
 #### Image Caption Generation
 `python image_capotion_generate.py`

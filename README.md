@@ -1,6 +1,6 @@
 # Caption in Prompt
 
-Official repository for the IJCV paper "[Image Captions are Natural Prompts for Text-to-Image Models (arXiv version)](https://arxiv.org/abs/2307.08526)" by Shiye Lei\*, Hao Chen\*, Sen Zhang, Bo Zhao, and Dacheng Tao.
+Official repository for the IJCV paper "**Image Captions are Natural Prompts for Training Data Synthesis** [[Springer]](https://link.springer.com/article/10.1007/s11263-025-02436-0) [[arXiv]](https://arxiv.org/pdf/2307.08526)" by Shiye Lei\*, Hao Chen\*, Sen Zhang, Bo Zhao, and Dacheng Tao. 
 
 \* Contributed equally.
 
@@ -39,6 +39,18 @@ Official repository for the IJCV paper "[Image Captions are Natural Prompts for 
 - **Membership Inference Attack**
 
 `eval_mi_attack.py`
+
+#### Citation
+```
+@article{lei2025image,
+  title={Image Captions are Natural Prompts for Training Data Synthesis},
+  author={Lei, Shiye and Chen, Hao and Zhang, Sen and Zhao, Bo and Tao, Dacheng},
+  journal={International Journal of Computer Vision},
+  pages={1--20},
+  year={2025},
+  publisher={Springer}
+}
+```
 ## Contact
 
 For inquiries regarding synthetic data requirements or any other issues, please feel free to contact Shiye Lei: [leishiye@gmail.com](mailto:leishiye@gmail.com)
